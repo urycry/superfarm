@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hud>
+    <control>HUD/dpad.xml</control>
+    <control>HUD/button_menu.xml</control>
+    <control>HUD/button_finish.xml</control>
+    <control>HUD/menu.xml</control>
+</hud>

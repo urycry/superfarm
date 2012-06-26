@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hudcontrol>
+    <id>button_menu</id>
+	<image>
+	    <filename>HUD/button_menu.png</filename>
+	    <highlightfilename>HUD/button_menu_highlight.png</highlightfilename>
+	    <x>70</x>
+	    <y>82</y>
+	    <width>24</width>
+	    <height>16</height>
+	    <action_click></action_click>
+	    <action_move></action_move>
+	    <action_up>button_menu</action_up>
+	</image>
+</hudcontrol>

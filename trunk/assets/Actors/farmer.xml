@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<actor>
+    <animationidlenfilename>Actors/farmeranimation_idle_n.xml</animationidlenfilename>
+    <animationwalkingnfilename>Actors/farmeranimation_walking_n.xml</animationwalkingnfilename>
+
+    <animationidlesfilename>Actors/farmeranimation_idle_s.xml</animationidlesfilename>
+    <animationwalkingsfilename>Actors/farmeranimation_walking_s.xml</animationwalkingsfilename>
+
+    <animationidleefilename>Actors/farmeranimation_idle_e.xml</animationidleefilename>
+    <animationwalkingefilename>Actors/farmeranimation_walking_e.xml</animationwalkingefilename>
+
+    <animationidlewfilename>Actors/farmeranimation_idle_w.xml</animationidlewfilename>
+    <animationwalkingwfilename>Actors/farmeranimation_walking_w.xml</animationwalkingwfilename>
+
+    <speed>1.4</speed>
+</actor>

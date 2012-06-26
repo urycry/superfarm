@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tilesheet>
+	<filename>Actors/farmer.png</filename>
+	<sheetwidth>128</sheetwidth>
+	<sheetheight>256</sheetheight>
+	<cellwidth>34</cellwidth>
+	<cellheight>34</cellheight>
+	<columns>3</columns>
+	<cellcount>12</cellcount>
+</tilesheet>

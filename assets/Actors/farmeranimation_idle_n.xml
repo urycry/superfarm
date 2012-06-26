@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tiledanimation>
+	<tilesheetfilename>Actors/farmertilesheet.xml</tilesheetfilename>
+	<tiles>
+		10
+	</tiles>
+	<fps>1</fps>
+</tiledanimation>

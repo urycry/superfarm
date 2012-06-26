@@ -1,5 +1,7 @@
 package com.richardhughes.superfarm;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import org.w3c.dom.NodeList;
@@ -21,6 +23,9 @@ public class Farm {
 	private Hashtable<String, Sprite> _data = new Hashtable<String, Sprite>();
 
 	private boolean _shouldPerformDataRenderCleanup = false;
+
+	private ArrayList<Plant> _plants = new ArrayList<Plant>();
+	public ArrayList<Plant> GetPlants() { return this._plants; }
 
 	public boolean Load(SuperFarmGame game) {
 
@@ -47,6 +52,39 @@ public class Farm {
 		this._highlightSection.Load(SuperFarmGame.PATH_WORLD + s, game);
 		this._highlightSection.Size.x = tileSize - 1; // don't cover the grid
 		this._highlightSection.Size.y = tileSize - 1; // don't cover the grid
+
+		this.LoadPlants(game);
+	}
+
+	private void LoadPlants(SuperFarmGame game) {
+
+		try {
+			String[] fileNames = game.CurrentApplicationContext.getAssets().list(SuperFarmGame.PATH_PLANTS_NO_SLASH);
+
+			for(String fileName : fileNames) {
+
+				try {
+
+					this.LoadPlant(fileName, game);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void LoadPlant(String fileName, SuperFarmGame game) {
+
+		Plant p = new Plant();
+
+		if(p.Load(fileName, game)) {
+
+			this._plants.add(p);
+		}
 	}
 	
 	public void Render(Camera camera, SuperFarmGame game) {

@@ -24,6 +24,8 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener {
 	public final static String PATH_FONTS = "Fonts/";
 	public final static String PATH_ACTORS = "Actors/";
 	public final static String PATH_WORLD = "World/";
+	public final static String PATH_PLANTS = "World/Plants/";
+	public final static String PATH_PLANTS_NO_SLASH = "World/Plants";
 
 	public final static int ACTIVITY_RESULT_MENU = 0;
 	
@@ -64,6 +66,8 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener {
 
 		this._hud.Load("HUD/HUD.xml", this);
 		this._hud.SetActionListener(this);
+
+		this.AddPlantImagesToPlantMenu("plant_menu");
 	}
 
 	@Override
@@ -195,7 +199,7 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener {
 		this._farm.SetGridMode(true);
 
 		this._hud.HideControl("button_menu");
-		this._hud.ShowControl("button_finish");
+		this._hud.ShowControl("plant_menu");
 
 		this.CloseMenu();
 	}
@@ -218,7 +222,16 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener {
 
 		this._gameMode = GameMode.Normal;
 
+		this._hud.ShowControl("button_menu");
+
 		this.CloseMenu();
+	}
+
+	@Override
+	public void actionBUTTON_RETURNFROMPLANTMENU(HUDActionListenerEventArgs e) {
+
+		this._hud.HideControl("plant_menu");
+		this._hud.ShowControl("menu");
 	}
 
 	private void CloseMenu() {
@@ -267,5 +280,22 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener {
 	private void Action_Plant() {
 
 		this._farm.AddItem(this._farmer.GetPosition(), this);
+	}
+
+	private void AddPlantImagesToPlantMenu(String id) {
+
+		int x = 8;
+		int y = 7;
+
+		int idx = 0;
+		for(Plant p : this._farm.GetPlants()) {
+
+			Image i = new Image();
+			i.Load(p.GetMenuIconFileName(), x, y, 25, 25, this);
+
+			this._hud.AddImageToControl(id, i);
+
+			x += 25;
+		}
 	}
 }

@@ -12,8 +12,11 @@ import com.richardhughes.jx.util.XMLHelper;
 public class HUDControl {
 
 	private HUD _hud = null;
-	
+
 	private ArrayList<Image> _images = new ArrayList<Image>();
+
+	private ArrayList<Image> _addedImages = new ArrayList<Image>(); // in a seperate array to make clearing added images easier
+	public ArrayList<Image> GetAddedImages() { return this._addedImages; }
 
 	private int _lastPressedImageIndex = -1;
 
@@ -34,7 +37,7 @@ public class HUDControl {
 		this._hud = hud;
 	}
 
-	public boolean Load(String fileName, GameBase game) {
+	public boolean Load(String fileName, SuperFarmGame game) {
 
 		FileHelper rh = new FileHelper();
 		String fileData = rh.GetAssetData(fileName, game.CurrentApplicationContext);
@@ -59,7 +62,7 @@ public class HUDControl {
 		return true;
 	}
 
-	public boolean LoadImage(Node nodeImage, GameBase game) {
+	public boolean LoadImage(Node nodeImage, SuperFarmGame game) {
 		
 		Image i = new Image();
 
@@ -81,8 +84,13 @@ public class HUDControl {
 
 		if(!this.GetIsVisible())
 			return;
-		
+
 		for(Image i : this._images) {
+
+			i.Render(game);
+		}
+
+		for(Image i : this._addedImages) {
 
 			i.Render(game);
 		}
@@ -155,5 +163,10 @@ public class HUDControl {
 	public void ImageAction(Image i, ImageActionType type) {
 
 		this._hud.OnImageAction(i.GetAction(type));
+	}
+
+	public void AddImage(Image i) {
+
+		this._addedImages.add(i);
 	}
 }

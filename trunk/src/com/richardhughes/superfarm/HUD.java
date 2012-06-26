@@ -15,7 +15,7 @@ public class HUD {
 
 	private IHUDActionListener _listener = null;
 
-	public boolean Load(String fileName, GameBase game) {
+	public boolean Load(String fileName, SuperFarmGame game) {
 
 		FileHelper rh = new FileHelper();
 		String fileData = rh.GetAssetData(fileName, game.CurrentApplicationContext);
@@ -36,7 +36,7 @@ public class HUD {
 		return true;
 	}
 
-	public boolean LoadControl(String fileName, GameBase game) {
+	public boolean LoadControl(String fileName, SuperFarmGame game) {
 
 		HUDControl c = new HUDControl(this);
 
@@ -142,6 +142,11 @@ public class HUD {
 			HUDActionListenerEventArgs e = new HUDActionListenerEventArgs();
 			this._listener.actionBUTTON_RETURNFROMMENU(e);
 		}
+		else if(action.equals("button_returnfromplantmenu")) {
+
+			HUDActionListenerEventArgs e = new HUDActionListenerEventArgs();
+			this._listener.actionBUTTON_RETURNFROMPLANTMENU(e);
+		}
 	}
 
 	public void ShowControl(String id) {
@@ -166,6 +171,17 @@ public class HUD {
 			if(id.equals(c.GetId().trim().toLowerCase())) {
 
 				c.SetIsVisible(false);
+			}
+		}
+	}
+
+	public void AddImageToControl(String id, Image i) {
+
+		for(HUDControl c : this._controls) {
+
+			if(id.equals(c.GetId().trim().toLowerCase())) {
+
+				c.AddImage(i);
 			}
 		}
 	}

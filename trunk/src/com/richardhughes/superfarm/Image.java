@@ -21,7 +21,7 @@ public class Image {
 	
 	private Quad _renderQuad = new Quad();
 
-	public boolean Load(Node node, GameBase game) {
+	public boolean Load(Node node, SuperFarmGame game) {
 		
 		for(int i = 0; i < node.getChildNodes().getLength(); i++) {
 
@@ -84,6 +84,42 @@ public class Image {
 			}
 		}
 
+		this.Setup(game);
+
+		return true;
+	}
+
+	public boolean Load(String imageFileName, int x, int y, int width, int height, SuperFarmGame game) {
+
+		this._fileName = imageFileName;
+
+		// x
+		x *= game.ScreenWidth / 100.0f;
+
+		this._renderQuad.Position.x = (int)x;
+
+		// y
+		y *= game.ScreenHeight / 100.0f;
+
+		this._renderQuad.Position.y = (int)y;
+
+		// width
+		width *= game.ScreenWidth / 100.0f;
+
+		this._renderQuad.Width = (int)width;
+
+		// height
+		height *= game.ScreenHeight / 100.0f;
+
+		this._renderQuad.Height = (int)height;
+
+		this.Setup(game);
+
+		return true;
+	}
+
+	private void Setup(SuperFarmGame game) {
+
 		this._textureId = game.TextureManager.LoadTexture(this._fileName, game.CurrentApplicationContext);
 		if(this._highlightFileName.length() > 0)
 			this._highlightTextureId = game.TextureManager.LoadTexture(this._highlightFileName, game.CurrentApplicationContext);
@@ -91,10 +127,8 @@ public class Image {
 		this._renderQuad.RequiresBlending = true;
 
 		this.SetHighlight(false);
-		
-		return true;
 	}
-
+	
 	public void Unload(GameBase game) {
 
 		game.TextureManager.FreeTexture(this._fileName);

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hudcontrol>
+    <id>plant_menu</id>
+    <isvisible>false</isvisible>
+	<image>
+	    <filename>HUD/background.png</filename>
+	    <x>2</x>
+	    <y>2</y>
+	    <width>96</width>
+	    <height>96</height>
+	    <action_click></action_click>
+	    <action_move></action_move>
+	    <action_up></action_up>
+	</image>
+	<image>
+	    <filename>HUD/button_returnfrommenu.png</filename>
+	    <x>8</x>
+	    <y>7</y>
+	    <width>25</width>
+	    <height>25</height>
+	    <action_click></action_click>
+	    <action_move></action_move>
+	    <action_up>button_returnfromplantmenu</action_up>
+	</image>
+</hudcontrol>

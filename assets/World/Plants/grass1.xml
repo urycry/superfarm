@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plant>
+    <id>grass1</id>
+    <name>Grass - Type 1</name>
+    <animationfilename>World/Plants/grass1_animation.xml</animationfilename>
+    <menuiconfilename>World/Plants/grass1_menuicon.png</menuiconfilename>
+</plant>

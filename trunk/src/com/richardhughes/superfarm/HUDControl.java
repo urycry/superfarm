@@ -78,6 +78,14 @@ public class HUDControl {
 
 			i.Unload(game);
 		}
+
+		for(Image i : this._addedImages) {
+
+			i.Render(game);
+		}
+
+		// not sure if this should be here...
+		this._addedImages.clear();
 	}
 	
 	public void Render(GameBase game) {
@@ -126,6 +134,32 @@ public class HUDControl {
 
 			index++;
 		}
+
+		index = 0;
+		for(Image i : this._addedImages) {
+
+			if(this.IsImageWithBounds(x, y, i)) {
+
+				this._lastPressedImageIndex = index;
+				
+				this.ImageAction(i, ImageActionType.Click);
+
+				i.SetHighlight(true);
+			}
+			else {
+
+				if(index == this._lastPressedImageIndex) {
+					
+					this.ImageAction(i, ImageActionType.Up);
+
+					this._lastPressedImageIndex = -1;
+				}
+
+				i.SetHighlight(false);
+			}
+
+			index++;
+		}
 	}
 
 	public void OnTouchUp(int x, int y) {
@@ -135,6 +169,21 @@ public class HUDControl {
 
 		int index = 0;
 		for(Image i : this._images) {
+
+			if(index == this._lastPressedImageIndex) {
+				
+				this.ImageAction(i, ImageActionType.Up);
+
+				this._lastPressedImageIndex = -1;
+			}
+
+			i.SetHighlight(false);
+
+			index++;
+		}
+
+		index = 0;
+		for(Image i : this._addedImages) {
 
 			if(index == this._lastPressedImageIndex) {
 				
@@ -162,7 +211,7 @@ public class HUDControl {
 
 	public void ImageAction(Image i, ImageActionType type) {
 
-		this._hud.OnImageAction(i.GetAction(type));
+		this._hud.OnImageAction(i.GetAction(type), i.GetId());
 	}
 
 	public void AddImage(Image i) {

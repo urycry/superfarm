@@ -14,8 +14,8 @@
 	</image>
 	<image>
 	    <filename>HUD/button_returnfrommenu.png</filename>
-	    <x>8</x>
-	    <y>7</y>
+	    <x>66</x>
+	    <y>65</y>
 	    <width>25</width>
 	    <height>25</height>
 	    <action_click></action_click>

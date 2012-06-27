@@ -194,10 +194,6 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener {
 	@Override
 	public void actionBUTTON_PLANT(HUDActionListenerEventArgs e) {
 
-		this._gameMode = GameMode.Plant;
-
-		this._farm.SetGridMode(true);
-
 		this._hud.HideControl("button_menu");
 		this._hud.ShowControl("plant_menu");
 
@@ -232,6 +228,21 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener {
 
 		this._hud.HideControl("plant_menu");
 		this._hud.ShowControl("menu");
+	}
+
+	@Override
+	public void actionPLANT_SELECTED(HUDActionListenerEventArgs e) {
+
+		this._gameMode = GameMode.Plant;
+
+		this._farm.SetGridMode(true);
+
+		this.CloseMenu();
+
+		this._hud.HideControl("plant_menu");
+		this._hud.HideControl("buttonMenu");
+
+		this._hud.ShowControl("button_finish");
 	}
 
 	private void CloseMenu() {
@@ -291,11 +302,20 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener {
 		for(Plant p : this._farm.GetPlants()) {
 
 			Image i = new Image();
-			i.Load(p.GetMenuIconFileName(), x, y, 25, 25, this);
+			i.Load(p.GetId(), p.GetMenuIconFileName(), x, y, 25, 25, this);
+			i.SetActionUp("plant_selected");
 
 			this._hud.AddImageToControl(id, i);
 
-			x += 25;
+			x += 25 + 4; // 4 is the spacing
+
+			idx++;
+
+			if(idx % 3 == 0) {
+
+				x = 8;
+				y += 25 + 4;
+			}
 		}
 	}
 }

@@ -13,4 +13,5 @@ public interface IHUDActionListener {
 	public void actionBUTTON_FINISH(HUDActionListenerEventArgs e);
 	public void actionBUTTON_RETURNFROMMENU(HUDActionListenerEventArgs e);
 	public void actionBUTTON_RETURNFROMPLANTMENU(HUDActionListenerEventArgs e);
+	public void actionPLANT_SELECTED(HUDActionListenerEventArgs e);
 }

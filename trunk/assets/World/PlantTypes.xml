@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<planttypes>
+    <type>
+        <name>Grass</name>
+        <id>grass</id>
+        <description>A grass like substance....</description>
+        <menuiconfilename>World/planttype_grass.png</menuiconfilename>
+    </type>
+    <type>
+        <name>Trees</name>
+        <id>tree</id>
+        <description>Fruit bearing plants</description>
+        <menuiconfilename>World/planttype_tree.png</menuiconfilename>
+    </type>
+</planttypes>

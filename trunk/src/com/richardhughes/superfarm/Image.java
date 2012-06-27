@@ -13,9 +13,21 @@ public class Image {
 	private String _highlightFileName = "";
 	private int _highlightTextureId = -1;
 
+	private String _id = "";
+	public String GetId() { return this._id; }
+	public void SetId(String value) { this._id = value; }
+
 	private String _actionClick = "";
+	public String GetActionClick() { return this._actionClick; }
+	public void SetActionClick(String value) { this._actionClick = value; }
+
 	private String _actionMove = "";
+	public String GetActionMove() { return this._actionMove; }
+	public void SetActionMove(String value) { this._actionMove = value; }
+
 	private String _actionUp = "";
+	public String GetActionUp() { return this._actionUp; }
+	public void SetActionUp(String value) { this._actionUp = value; }
 
 	private boolean _isHighlighted = false; 
 	
@@ -89,7 +101,15 @@ public class Image {
 		return true;
 	}
 
-	public boolean Load(String imageFileName, int x, int y, int width, int height, SuperFarmGame game) {
+	public boolean Load(String id,
+						  String imageFileName,
+						  int x,
+						  int y,
+						  int width,
+						  int height,
+						  SuperFarmGame game) {
+
+		this._id = id;
 
 		this._fileName = imageFileName;
 

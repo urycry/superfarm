@@ -85,67 +85,63 @@ public class HUD {
 		this._listener = listener;
 	}
 	
-	public void OnImageAction(String action) {
+	public void OnImageAction(String action, String imageId) {
 
 		if(this._listener == null)
 			return;
 		
 		action = action.toLowerCase().trim();
 
+		HUDActionListenerEventArgs e = new HUDActionListenerEventArgs();
+		e.SetImageId(imageId);
+
 		if(action.equals("dpad_center")) {
 
-			HUDActionListenerEventArgs e = new HUDActionListenerEventArgs();
 			this._listener.actionDPAD_CENTER(e);
 		}
 		else if(action.equals("dpad_up")) {
 
-			HUDActionListenerEventArgs e = new HUDActionListenerEventArgs();
 			this._listener.actionDPAD_UP(e);
 		}
 		else if(action.equals("dpad_down")) {
 
-			HUDActionListenerEventArgs e = new HUDActionListenerEventArgs();
 			this._listener.actionDPAD_DOWN(e);
 		}
 		else if(action.equals("dpad_left")) {
 
-			HUDActionListenerEventArgs e = new HUDActionListenerEventArgs();
 			this._listener.actionDPAD_LEFT(e);
 		}
 		else if(action.equals("dpad_right")) {
 
-			HUDActionListenerEventArgs e = new HUDActionListenerEventArgs();
 			this._listener.actionDPAD_RIGHT(e);
 		}
 		else if(action.equals("button_menu")) {
 
-			HUDActionListenerEventArgs e = new HUDActionListenerEventArgs();
 			this._listener.actionBUTTON_MENU(e);
 		}
 		else if(action.equals("button_exit")) {
 
-			HUDActionListenerEventArgs e = new HUDActionListenerEventArgs();
 			this._listener.actionBUTTON_EXIT(e);
 		}
 		else if(action.equals("button_plant")) {
 
-			HUDActionListenerEventArgs e = new HUDActionListenerEventArgs();
 			this._listener.actionBUTTON_PLANT(e);
 		}
 		else if(action.equals("button_finish")) {
 
-			HUDActionListenerEventArgs e = new HUDActionListenerEventArgs();
 			this._listener.actionBUTTON_FINISH(e);
 		}
 		else if(action.equals("button_returnfrommenu")) {
 
-			HUDActionListenerEventArgs e = new HUDActionListenerEventArgs();
 			this._listener.actionBUTTON_RETURNFROMMENU(e);
 		}
 		else if(action.equals("button_returnfromplantmenu")) {
 
-			HUDActionListenerEventArgs e = new HUDActionListenerEventArgs();
 			this._listener.actionBUTTON_RETURNFROMPLANTMENU(e);
+		}
+		else if(action.equals("plant_selected")) {
+
+			this._listener.actionPLANT_SELECTED(e);
 		}
 	}
 

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hudcontrol>
+    <id>info_bar</id>
+	<image>
+	    <filename>HUD/background_light.png</filename>
+	    <x>0</x>
+	    <y>0</y>
+	    <width>100</width>
+	    <height>7</height>
+	    <action_click></action_click>
+	    <action_move></action_move>
+	    <action_up></action_up>
+	</image>
+</hudcontrol>

@@ -14,6 +14,12 @@ public class GameSettings {
 	// in meters
 	public int FarmTileSize = 0;
 
+	private int _startingYear = 0;
+	public int GetStartingYear() { return this._startingYear; }
+
+	private int _dayInRealSeconds = 0;
+	public int GetDayInRealSeconds() { return this._dayInRealSeconds; }
+
 	public boolean Load(GameBase game) {
 
 		FileHelper rh = new FileHelper();
@@ -24,7 +30,9 @@ public class GameSettings {
 
 		this.MeterSize = Integer.parseInt(xhelp.GetValue("/settings/metersize/text()"));
 		this.FarmTileSize = Integer.parseInt(xhelp.GetValue("/settings/farmtilesize/text()"));
-		
+		this._startingYear = Integer.parseInt(xhelp.GetValue("/settings/startingyear/text()"));
+		this._dayInRealSeconds = Integer.parseInt(xhelp.GetValue("/settings/dayinrealseconds/text()"));
+
 		return true;
 	}
 }

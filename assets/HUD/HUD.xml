@@ -5,4 +5,5 @@
     <control>HUD/button_finish.xml</control>
     <control>HUD/menu.xml</control>
     <control>HUD/plant_menu.xml</control>
+    <control>HUD/info_bar.xml</control>
 </hud>

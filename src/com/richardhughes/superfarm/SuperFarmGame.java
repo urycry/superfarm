@@ -42,6 +42,8 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener {
 
 	private GameMode _gameMode = GameMode.Normal;
 
+	private GameTime _gameTime = new GameTime();
+
 	public SuperFarmGame(Context context, GameInformation gameInfo) {
 		super(context, gameInfo);
 		// TODO Auto-generated constructor stub
@@ -51,6 +53,8 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener {
 	public void OnLoad() {
 
 		this._settings.Load(this);
+
+		this._gameTime.Load(this._settings.GetStartingYear(), this._settings.GetDayInRealSeconds());
 		
 		this._camera.Load(this);
 	}
@@ -76,6 +80,9 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener {
 		// when viewing the menu, the game is effectively paused
 		if(this._gameMode == GameMode.Menu)
 			return;
+
+		this._gameTime.Update(this);
+		this.DebugPrint("Time : " + this._gameTime.GetHours() + ":" + this._gameTime.GetMinutes() + ":" + this._gameTime.GetSeconds(), false);
 
 		this._farmer.Update(this);
 
@@ -107,6 +114,7 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener {
 	private void RenderDebugMessages() {
 
 		Point p = new Point();
+		p.y = 40;
 
 		for(String message : this._debugMessages) {
 
@@ -181,6 +189,7 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener {
 		this._hud.ShowControl("menu");
 		this._hud.HideControl("dpad");
 		this._hud.HideControl("buttonMenu");
+		this._hud.HideControl("info_bar");
 
 		this._gameMode = GameMode.Menu;
 	}
@@ -256,7 +265,8 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener {
 
 		this._hud.HideControl("menu");
 		this._hud.ShowControl("dpad");
-		this._hud.ShowControl("buttonMenu");		
+		this._hud.ShowControl("buttonMenu");
+		this._hud.ShowControl("info_bar");
 	}
 	
 	public void DebugPrint(String message) {

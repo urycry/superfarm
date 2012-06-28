@@ -14,9 +14,7 @@ public class HUDControl {
 	private HUD _hud = null;
 
 	private ArrayList<Image> _images = new ArrayList<Image>();
-
-	private ArrayList<Image> _addedImages = new ArrayList<Image>(); // in a seperate array to make clearing added images easier
-	public ArrayList<Image> GetAddedImages() { return this._addedImages; }
+	public ArrayList<Image> GetImages() { return this._images; }
 
 	private int _lastPressedImageIndex = -1;
 
@@ -78,14 +76,6 @@ public class HUDControl {
 
 			i.Unload(game);
 		}
-
-		for(Image i : this._addedImages) {
-
-			i.Render(game);
-		}
-
-		// not sure if this should be here...
-		this._addedImages.clear();
 	}
 	
 	public void Render(GameBase game) {
@@ -94,11 +84,6 @@ public class HUDControl {
 			return;
 
 		for(Image i : this._images) {
-
-			i.Render(game);
-		}
-
-		for(Image i : this._addedImages) {
 
 			i.Render(game);
 		}
@@ -111,32 +96,6 @@ public class HUDControl {
 
 		int index = 0;
 		for(Image i : this._images) {
-
-			if(this.IsImageWithBounds(x, y, i)) {
-
-				this._lastPressedImageIndex = index;
-				
-				this.ImageAction(i, ImageActionType.Click);
-
-				i.SetHighlight(true);
-			}
-			else {
-
-				if(index == this._lastPressedImageIndex) {
-					
-					this.ImageAction(i, ImageActionType.Up);
-
-					this._lastPressedImageIndex = -1;
-				}
-
-				i.SetHighlight(false);
-			}
-
-			index++;
-		}
-
-		index = 0;
-		for(Image i : this._addedImages) {
 
 			if(this.IsImageWithBounds(x, y, i)) {
 
@@ -181,21 +140,6 @@ public class HUDControl {
 
 			index++;
 		}
-
-		index = 0;
-		for(Image i : this._addedImages) {
-
-			if(index == this._lastPressedImageIndex) {
-				
-				this.ImageAction(i, ImageActionType.Up);
-
-				this._lastPressedImageIndex = -1;
-			}
-
-			i.SetHighlight(false);
-
-			index++;
-		}
 	}
 
 	public boolean IsImageWithBounds(int x, int y, Image i) {
@@ -216,6 +160,6 @@ public class HUDControl {
 
 	public void AddImage(Image i) {
 
-		this._addedImages.add(i);
+		this._images.add(i);
 	}
 }

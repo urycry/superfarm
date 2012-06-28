@@ -233,6 +233,11 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener {
 	@Override
 	public void actionPLANT_SELECTED(HUDActionListenerEventArgs e) {
 
+		String plantId = e.GetImageId().trim().toLowerCase();
+
+		if(plantId.equals(""))
+			return;
+
 		this._gameMode = GameMode.Plant;
 
 		this._farm.SetGridMode(true);
@@ -243,6 +248,8 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener {
 		this._hud.HideControl("buttonMenu");
 
 		this._hud.ShowControl("button_finish");
+
+		this._farm.SetPlantToPlantById(plantId, this);
 	}
 
 	private void CloseMenu() {
@@ -267,9 +274,14 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener {
 	
 	public void DebugLog(String message) {
 
-		Log.d(this.GameInfo.GameTag, "DebugPrint: " + message);
+		StackTraceElement stack = Thread.currentThread().getStackTrace()[3]; // 3 will be the caller of the 'DebugLog' method
+
+		String callerInfo = stack.getFileName() + " - " + stack.getClassName() + "." + stack.getMethodName() + ":" + stack.getLineNumber();
+
+		Log.d(this.GameInfo.GameTag, "DebugLog: " + callerInfo);
+		Log.d(this.GameInfo.GameTag, "DebugLog: " + message);
 	}
-	
+
 	public GameSettings GetSettings() {
 
 		return this._settings;

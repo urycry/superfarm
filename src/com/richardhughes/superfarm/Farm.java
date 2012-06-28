@@ -27,6 +27,9 @@ public class Farm {
 	private ArrayList<Plant> _plants = new ArrayList<Plant>();
 	public ArrayList<Plant> GetPlants() { return this._plants; }
 
+	private Sprite _currentPlant = null;
+	public Sprite GetCurrentPlant() { return this._currentPlant; }
+
 	public boolean Load(SuperFarmGame game) {
 
 		this._tilemap.Load(game);
@@ -163,8 +166,16 @@ public class Farm {
 		int tileX = this.PixelToTile(pos.x, game);
 		int tileY = this.PixelToTile(pos.y, game);
 
-		Sprite s = new Sprite();
-		s.Load("World/grass.xml", game);
+		Sprite itemToAdd = null;
+
+		// TODO use item id or name above to get item to add
+		// for now, use the current plant - if there is one to use
+		itemToAdd = this._currentPlant;
+
+		if(itemToAdd == null) {
+
+			return;
+		}
 
 		String key = this.BuildTileDataKey(tileX, tileY);
 
@@ -172,8 +183,8 @@ public class Farm {
 
 			this._data.remove(key);
 		}
-
-		this._data.put(key, s);
+		
+		this._data.put(key, itemToAdd);
 	}
 
 	public String BuildTileDataKey(int x, int y) {
@@ -203,5 +214,21 @@ public class Farm {
 	public void SetGridMode(boolean gridMode) {
 
 		this._tilemap.SetGridMode(gridMode);
+	}
+
+	public void SetPlantToPlantById(String id, SuperFarmGame game) {
+
+		id = id.trim().toLowerCase();
+
+		this._currentPlant = null;
+
+		for(Plant p : this._plants) {
+
+			if(p.GetId().trim().toLowerCase().equals(id)) {
+
+				this._currentPlant = new Sprite();
+				this._currentPlant.Load(p.GetAnimationFileName(), game);
+			}
+		}
 	}
 }

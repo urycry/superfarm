@@ -143,6 +143,10 @@ public class HUD {
 
 			this._listener.actionPLANT_SELECTED(e);
 		}
+		else if(action.equals("button_save")) {
+
+			this._listener.actionBUTTON_SAVE(e);
+		}
 	}
 
 	public void ShowControl(String id) {

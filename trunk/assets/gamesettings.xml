@@ -3,5 +3,5 @@
     <metersize>40</metersize>
     <farmtilesize>1</farmtilesize>
     <startingyear>1900</startingyear>
-    <dayinrealseconds>86400</dayinrealseconds>
+    <dayinrealseconds>600</dayinrealseconds>
 </settings>

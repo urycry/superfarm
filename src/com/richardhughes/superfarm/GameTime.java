@@ -3,6 +3,8 @@ package com.richardhughes.superfarm;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import android.util.Log;
+
 public class GameTime {
 
 	private Hashtable<Month, Integer> _daysInMonth = new Hashtable<Month, Integer>();
@@ -40,9 +42,9 @@ public class GameTime {
 	public int GetDayInRealSeconds() { return this._dayInRealSeconds; }
 	public void SetDayInRealSeconds(int value) { this._dayInRealSeconds = value; }
 
-	private long _secondCounter = 0;
+	private long _timeCounter = 0;
 
-	private double _realMillisecondsInGameSecond = 0;
+	private double _realSecondsInGameSecond = 0;
 
 	public boolean Load(int startingYear, int dayInRealSeconds) {
 
@@ -51,9 +53,8 @@ public class GameTime {
 		this._year = startingYear;
 		this._dayInRealSeconds = dayInRealSeconds;
 
-		// 86400000 is number of milliseconds per real day
-		this._realMillisecondsInGameSecond = (this._dayInRealSeconds * 1000) / 86400000;
-		this._realMillisecondsInGameSecond *= 1000;
+		// 86400 is number of seconds per real day
+		this._realSecondsInGameSecond = this._dayInRealSeconds / 86400.0d;
 
 		return true;
 	}
@@ -78,13 +79,15 @@ public class GameTime {
 
 	public void Update(SuperFarmGame game) {
 
-		this._secondCounter += game.TimeSinceLastFrame;
+		this._timeCounter += game.TimeSinceLastFrame;
 
-		if(this._secondCounter >= this._realMillisecondsInGameSecond) {
+		double time = this._timeCounter / 1000.0d;
+		
+		if(time >= this._realSecondsInGameSecond) {
 
-			this._seconds += (int)(this._secondCounter / this._realMillisecondsInGameSecond); // in case we need to add more than one second
+			this._seconds += time / this._realSecondsInGameSecond; // in case we need to add more than one second
 
-			this._secondCounter = 0;
+			this._timeCounter = 0;
 
 			if(this._seconds >= 60) {
 

@@ -10,6 +10,9 @@ public class GameTime {
 	private Hashtable<Month, Integer> _daysInMonth = new Hashtable<Month, Integer>();
 	public Hashtable<Month, Integer> GetDaysInMonth() { return this._daysInMonth; }
 
+	private Hashtable<Month, Season> _seasonsInMonths = new Hashtable<Month, Season>();
+	public Hashtable<Month, Season> GetSeasonsInMonths() { return this._seasonsInMonths; }
+
 	private int _seconds = 0;
 	public int GetSeconds() { return this._seconds; }
 	public void SetSeconds(int value) { this._seconds = value; }
@@ -42,13 +45,24 @@ public class GameTime {
 	public int GetDayInRealSeconds() { return this._dayInRealSeconds; }
 	public void SetDayInRealSeconds(int value) { this._dayInRealSeconds = value; }
 
+	private Season _season = Season.Spring;
+	public Season GetSeason() { return this._season; }
+	public void SetSearch(Season value) { this._season = value; }
+
 	private long _timeCounter = 0;
 
 	private double _realSecondsInGameSecond = 0;
 
+	private IGameTimeUpdate _gameTimeUpdate = null;
+	public IGameTimeUpdate GetGameTimeUpdate() { return this._gameTimeUpdate; }
+	public void SetGameTimeUpdate(IGameTimeUpdate value) { this._gameTimeUpdate = value; }
+
 	public boolean Load(int startingYear, int dayInRealSeconds) {
 
 		this.SetupDaysInMonth();
+		this.SetupSeasonsInMonths();
+
+		this.UpdateSeason();
 
 		this._year = startingYear;
 		this._dayInRealSeconds = dayInRealSeconds;
@@ -75,6 +89,24 @@ public class GameTime {
 		this._daysInMonth.put(Month.October, 31);
 		this._daysInMonth.put(Month.November, 30);
 		this._daysInMonth.put(Month.December, 31);
+	}
+
+	private void SetupSeasonsInMonths() {
+
+		this._seasonsInMonths.clear();
+
+		this._seasonsInMonths.put(Month.January, Season.Winter);
+		this._seasonsInMonths.put(Month.Febuary, Season.Winter);
+		this._seasonsInMonths.put(Month.March, Season.Spring);
+		this._seasonsInMonths.put(Month.April, Season.Spring);
+		this._seasonsInMonths.put(Month.May, Season.Spring);
+		this._seasonsInMonths.put(Month.June, Season.Summer);
+		this._seasonsInMonths.put(Month.July, Season.Summer);
+		this._seasonsInMonths.put(Month.August, Season.Summer);
+		this._seasonsInMonths.put(Month.September, Season.Autumn);
+		this._seasonsInMonths.put(Month.October, Season.Autumn);
+		this._seasonsInMonths.put(Month.November, Season.Autumn);
+		this._seasonsInMonths.put(Month.December, Season.Winter);
 	}
 
 	public void Update(SuperFarmGame game) {
@@ -173,6 +205,20 @@ public class GameTime {
 			this._month = Month.January;
 
 			this._year++;
+		}
+
+		this.UpdateSeason();
+	}
+
+	private void UpdateSeason() {
+
+		this._season = this._seasonsInMonths.get(this._month);
+
+		if(this._gameTimeUpdate != null) {
+
+			GameTimeUpdateEventArgs args = new GameTimeUpdateEventArgs();
+			args.SetSeason(this._season);
+			this._gameTimeUpdate.OnSeasonUpdate(args);
 		}
 	}
 }

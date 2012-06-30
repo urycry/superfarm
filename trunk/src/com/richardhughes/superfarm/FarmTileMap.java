@@ -23,13 +23,21 @@ public class FarmTileMap {
 	private FloatBuffer _gridModeVertexBuffer;
 	private int _numberOfGridLines = 0;
 
-	private Sprite _groundBasic = new Sprite();
+	private Sprite _groundBasicSpring = new Sprite();
+	private Sprite _groundBasicSummer = new Sprite();
+	private Sprite _groundBasicAutumn = new Sprite();
+	private Sprite _groundBasicWinter = new Sprite();
+	private Sprite _groundBasic = null;
 
 	private boolean _isGridMode = false;
 	
 	public boolean Load(SuperFarmGame game) {
 
-		this._groundBasic.Load("World/ground_basic.xml", game);
+		this._groundBasicSpring.Load("World/ground_basic_spring.xml", game);
+		this._groundBasicSummer.Load("World/ground_basic_summer.xml", game);
+		this._groundBasicAutumn.Load("World/ground_basic_autumn.xml", game);
+		this._groundBasicWinter.Load("World/ground_basic_winter.xml", game);
+		this._groundBasic = this._groundBasicSpring;
 
 		this._widthInTiles = game.ScreenWidth / game.MetersToPixels(game.GetSettings().FarmTileSize);
 		this._heightInTiles = game.ScreenHeight / game.MetersToPixels(game.GetSettings().FarmTileSize);
@@ -214,7 +222,7 @@ public class FarmTileMap {
 
 		// white
 		game.GLContext.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		
+
 		game.GLContext.glVertexPointer(2, GL10.GL_FLOAT, 0, this._gridModeVertexBuffer);
 
 		game.GLContext.glDrawArrays(GL10.GL_LINES, 0, this._numberOfGridLines * 2);
@@ -277,5 +285,28 @@ public class FarmTileMap {
 	public boolean GetGridMode() {
 
 		return this._isGridMode;
+	}
+
+	public void SetSeason(Season season, SuperFarmGame game) {
+
+		if(season == Season.Spring) {
+
+			this._groundBasic = this._groundBasicSpring;
+		}
+		else if(season == Season.Summer) {
+
+			this._groundBasic = this._groundBasicSummer;
+		}
+		else if(season == Season.Autumn) {
+
+			this._groundBasic = this._groundBasicAutumn;
+		}
+		else if(season == Season.Winter) {
+
+			this._groundBasic = this._groundBasicWinter;
+		}
+
+		// ensure the new ground basic texture coordinates are commited
+		this.SetupTextureCoordBuffer(game, true);
 	}
 }

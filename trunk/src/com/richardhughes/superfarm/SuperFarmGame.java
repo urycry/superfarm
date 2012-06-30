@@ -15,7 +15,7 @@ import android.util.Log;
 
 import com.richardhughes.jx.game.framework.*;
 
-public class SuperFarmGame extends GameBase implements IHUDActionListener {
+public class SuperFarmGame extends GameBase implements IHUDActionListener, IGameTimeUpdate {
 
 	public final static String TAG = "superfarm";
 
@@ -54,8 +54,9 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener {
 
 		this._settings.Load(this);
 
+		this._gameTime.SetGameTimeUpdate(this);
 		this._gameTime.Load(this._settings.GetStartingYear(), this._settings.GetDayInRealSeconds());
-		
+
 		this._camera.Load(this);
 	}
 
@@ -67,6 +68,7 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener {
 		this._farmer.Load(SuperFarmGame.PATH_ACTORS + "farmer.xml", this);
 
 		this._farm.Load(this);
+		this._farm.SetCurrentSeason(this._gameTime.GetSeason(), this);
 
 		this._hud.Load("HUD/HUD.xml", this);
 		this._hud.SetActionListener(this);
@@ -340,5 +342,13 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener {
 				y += 25 + 4;
 			}
 		}
+	}
+
+	// IGameTimeUpdate Methods
+
+	@Override
+	public void OnSeasonUpdate(GameTimeUpdateEventArgs args) {
+this.DebugLog("Season Updated: " + args.GetSeason());
+		this._farm.SetCurrentSeason(args.GetSeason(), this);
 	}
 }

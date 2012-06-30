@@ -42,4 +42,14 @@
 	    <action_move></action_move>
 	    <action_up>button_exit</action_up>
 	</image>
+	<image>
+	    <filename>HUD/button_save.png</filename>
+	    <x>8</x>
+	    <y>36</y>
+	    <width>25</width>
+	    <height>25</height>
+	    <action_click></action_click>
+	    <action_move></action_move>
+	    <action_up>button_save</action_up>
+	</image>
 </hudcontrol>

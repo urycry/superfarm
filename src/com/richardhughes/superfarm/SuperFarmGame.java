@@ -84,7 +84,6 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener, IGame
 			return;
 
 		this._gameTime.Update(this);
-		this.DebugPrint("Time : " + this._gameTime.GetHours() + ":" + this._gameTime.GetMinutes() + ":" + this._gameTime.GetSeconds(), false);
 
 		this._farmer.Update(this);
 
@@ -109,7 +108,7 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener, IGame
 		this._hud.Render(this);
 
 		//this.DebugPrint("FPS: " + this.FPS, false);
-		this.DebugPrint(this._gameTime.GetDay() + " - " + this._gameTime.GetDayOfMonth() + "/" + this._gameTime.GetMonth() + "/" + this._gameTime.GetYear() + " - " + this._gameTime.GetHours() + ":" + this._gameTime.GetMinutes() + ":" + this._gameTime.GetSeconds());
+		//this.DebugPrint(this._gameTime.GetDay() + " - " + this._gameTime.GetDayOfMonth() + "/" + this._gameTime.GetMonth() + "/" + this._gameTime.GetYear() + " - " + this._gameTime.GetHours() + ":" + this._gameTime.GetMinutes() + ":" + this._gameTime.GetSeconds());
 
 		this.RenderDebugMessages();
 	}
@@ -155,6 +154,8 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener, IGame
 
 		this._hud.OnTouchUp(x, y);
 	}
+
+	// HUD methods
 
 	@Override
 	public void actionDPAD_CENTER(HUDActionListenerEventArgs e) {
@@ -262,6 +263,12 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener, IGame
 		this._hud.ShowControl("button_finish");
 
 		this._farm.SetPlantToPlantById(plantId, this);
+	}
+
+	@Override
+	public void actionBUTTON_SAVE(HUDActionListenerEventArgs e) {
+
+		this.CloseMenu();
 	}
 
 	private void CloseMenu() {

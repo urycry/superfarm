@@ -30,6 +30,14 @@ public class Farm {
 	private Sprite _currentPlant = null;
 	public Sprite GetCurrentPlant() { return this._currentPlant; }
 
+	private Season _currentSeason = Season.Spring;
+	public Season GetCurrentSeason() { return this._currentSeason; }
+	public void SetCurrentSeason(Season value, SuperFarmGame game) {
+
+		this._currentSeason = value;
+		this._tilemap.SetSeason(this._currentSeason, game);
+	}
+
 	public boolean Load(SuperFarmGame game) {
 
 		this._tilemap.Load(game);

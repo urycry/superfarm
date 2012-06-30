@@ -42,8 +42,8 @@ public class GameTime {
 
 	private long _secondCounter = 0;
 
-	private long _realMillisecondsInGameSecond = 0;
-	
+	private double _realMillisecondsInGameSecond = 0;
+
 	public boolean Load(int startingYear, int dayInRealSeconds) {
 
 		this.SetupDaysInMonth();
@@ -51,8 +51,9 @@ public class GameTime {
 		this._year = startingYear;
 		this._dayInRealSeconds = dayInRealSeconds;
 
-		// 1 day is 86 400 000 milliseconds
-		this._realMillisecondsInGameSecond = 86400000 / (this._dayInRealSeconds * 1000);
+		// 86400000 is number of milliseconds per real day
+		this._realMillisecondsInGameSecond = (this._dayInRealSeconds * 1000) / 86400000;
+		this._realMillisecondsInGameSecond *= 1000;
 
 		return true;
 	}
@@ -77,7 +78,7 @@ public class GameTime {
 
 	public void Update(SuperFarmGame game) {
 
-		this._secondCounter += game.LastFrameTime;
+		this._secondCounter += game.TimeSinceLastFrame;
 
 		if(this._secondCounter >= this._realMillisecondsInGameSecond) {
 
@@ -87,24 +88,88 @@ public class GameTime {
 
 			if(this._seconds >= 60) {
 
-				this._minutes++;
+				this._minutes += (int)(this._seconds / 60);
 
-				this._seconds = 0;
+				this._seconds = this._seconds % 60;
 			}
 
 			if(this._minutes >= 60) {
 
-				this._hours++;
+				this._hours += (int)(this._minutes / 60);
 
-				this._minutes = 0;
+				this._minutes = this._minutes % 60;
 			}
 
 			if(this._hours >= 24) {
 
-				//this._hours++;
+				this.AdvanceDay();
 
 				this._hours = 0;
 			}
+		}
+	}
+
+	private void AdvanceDay() {
+
+		if(this._day == Day.Monday)
+			this._day = Day.Tuesday;
+		else if(this._day == Day.Tuesday)
+			this._day = Day.Wednesday;
+		else if(this._day == Day.Wednesday)
+			this._day = Day.Thursday;
+		else if(this._day == Day.Thursday)
+			this._day = Day.Friday;
+		else if(this._day == Day.Friday)
+			this._day = Day.Saturday;
+		else if(this._day == Day.Saturday)
+			this._day = Day.Sunday;
+		else if(this._day == Day.Sunday)
+			this._day = Day.Monday;
+
+		this.AdvanceDayOfMonth();
+	}
+
+	private void AdvanceDayOfMonth() {
+
+		this._dayOfMonth++;
+
+		if(this._dayOfMonth > this._daysInMonth.get(this._month)) {
+
+			this._dayOfMonth = 1;
+
+			this.AdvanceMonth();
+		}
+	}
+
+	private void AdvanceMonth() {
+
+		if(this._month == Month.January)
+			this._month = Month.Febuary;
+		else if(this._month == Month.Febuary)
+			this._month = Month.March;
+		else if(this._month == Month.March)
+			this._month = Month.April;
+		else if(this._month == Month.April)
+			this._month = Month.May;
+		else if(this._month == Month.May)
+			this._month = Month.June;
+		else if(this._month == Month.June)
+			this._month = Month.July;
+		else if(this._month == Month.July)
+			this._month = Month.August;
+		else if(this._month == Month.August)
+			this._month = Month.September;
+		else if(this._month == Month.September)
+			this._month = Month.October;
+		else if(this._month == Month.October)
+			this._month = Month.November;
+		else if(this._month == Month.November)
+			this._month = Month.December;
+		else if(this._month == Month.December) {
+
+			this._month = Month.January;
+
+			this._year++;
 		}
 	}
 }

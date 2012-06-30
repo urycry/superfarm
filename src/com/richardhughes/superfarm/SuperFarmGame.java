@@ -30,7 +30,7 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener {
 	public final static int ACTIVITY_RESULT_MENU = 0;
 	
 	private GameSettings _settings = new GameSettings();
-	
+
 	private Actor _farmer = new Actor();
 	private Farm _farm = new Farm();
 	private Camera _camera = new Camera();
@@ -107,6 +107,7 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener {
 		this._hud.Render(this);
 
 		//this.DebugPrint("FPS: " + this.FPS, false);
+		this.DebugPrint(this._gameTime.GetDay() + " - " + this._gameTime.GetDayOfMonth() + "/" + this._gameTime.GetMonth() + "/" + this._gameTime.GetYear() + " - " + this._gameTime.GetHours() + ":" + this._gameTime.GetMinutes() + ":" + this._gameTime.GetSeconds());
 
 		this.RenderDebugMessages();
 	}

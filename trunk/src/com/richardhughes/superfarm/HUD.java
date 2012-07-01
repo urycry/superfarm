@@ -46,7 +46,7 @@ public class HUD {
 		return true;
 	}
 
-	public void Unload(GameBase game) {
+	public void Unload(SuperFarmGame game) {
 
 		for(HUDControl c : this._controls) {
 
@@ -56,11 +56,19 @@ public class HUD {
 		this._controls.clear();
 	}
 	
-	public void Render(GameBase game) {
+	public void Render(SuperFarmGame game) {
 
 		for(HUDControl c : this._controls) {
 
 			c.Render(game);
+		}
+	}
+	
+	public void Update(SuperFarmGame game) {
+
+		for(HUDControl c : this._controls) {
+
+			c.Update(game);
 		}
 	}
 

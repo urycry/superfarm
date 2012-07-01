@@ -43,7 +43,14 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener, IGame
 	private GameMode _gameMode = GameMode.Normal;
 
 	private GameTime _gameTime = new GameTime();
+	public GameTime GetGameTime() { return this._gameTime; }
 
+	private FontManager _fontManager = new FontManager();
+	public FontManager GetFontManager() { return this._fontManager; }
+
+	private Tokenizer _tokenizer = new Tokenizer();
+	public Tokenizer GetTokenizer() { return this._tokenizer; }
+	
 	public SuperFarmGame(Context context, GameInformation gameInfo) {
 		super(context, gameInfo);
 		// TODO Auto-generated constructor stub
@@ -63,7 +70,7 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener, IGame
 	@Override
 	public void OnLoadResources(GL10 gl) {
 
-		this._debugFont.Load(this, SuperFarmGame.PATH_FONTS + "debug.fnt");
+		this._debugFont = this._fontManager.GetFont("debug", this);
 		
 		this._farmer.Load(SuperFarmGame.PATH_ACTORS + "farmer.xml", this);
 
@@ -85,6 +92,8 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener, IGame
 
 		this._gameTime.Update(this);
 
+		this._hud.Update(this);
+		
 		this._farmer.Update(this);
 
 		this._camera.Focus(this, this._farmer);
@@ -355,7 +364,7 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener, IGame
 
 	@Override
 	public void OnSeasonUpdate(GameTimeUpdateEventArgs args) {
-this.DebugLog("Season Updated: " + args.GetSeason());
+
 		this._farm.SetCurrentSeason(args.GetSeason(), this);
 	}
 }

@@ -20,7 +20,7 @@ public class SpriteFont {
 		for(int i = 0; i < SpriteFont.CHARACTER_COUNT; i++) {
 
 			this._characters[i] = new Quad();
-			
+
 			this._characters[i].TextureId = game.TextureManager.LoadTexture(SuperFarmGame.PATH_FONTS + this.m_BMFont.m_FileName,
 					game.CurrentApplicationContext);
 		}

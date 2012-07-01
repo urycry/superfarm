@@ -195,6 +195,8 @@ public class FarmTileMap {
 		// reset any previous scales for this render
 		game.GLContext.glScalef(1.0f, 1.0f, 1.0f);
 
+		game.GLContext.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
 		game.GLContext.glVertexPointer(2, GL10.GL_FLOAT, 0, this._vertBuffer);
 		game.GLContext.glTexCoordPointer(2, GL10.GL_FLOAT, 0, this._texCoordBuffer);
 

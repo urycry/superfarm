@@ -11,4 +11,12 @@
 	    <action_move></action_move>
 	    <action_up></action_up>
 	</image>
+	<text>
+	    <x>0</x>
+	    <y>0</y>
+	    <font>hud</font>
+	    <text>##day## - ##d##/##m##/##y## - ##h##:##M##</text>
+	    <size>5</size>
+	    <color>#000000</color>
+	</text>
 </hudcontrol>

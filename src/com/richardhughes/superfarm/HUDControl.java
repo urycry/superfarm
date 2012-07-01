@@ -16,6 +16,9 @@ public class HUDControl {
 	private ArrayList<Image> _images = new ArrayList<Image>();
 	public ArrayList<Image> GetImages() { return this._images; }
 
+	private ArrayList<HUDText> _texts = new ArrayList<HUDText>();
+	public ArrayList<HUDText> GetTexts() { return this._texts; }
+
 	private int _lastPressedImageIndex = -1;
 
 	private String _id = "";
@@ -57,6 +60,15 @@ public class HUDControl {
 			this.LoadImage(n, game);
 		}
 
+		controls = xhelp.GetValues("/hudcontrol/text");
+
+		for(int i = 0; i < controls.getLength(); i++) {
+
+			Node n = controls.item(i);
+
+			this.LoadText(n, game);
+		}
+		
 		return true;
 	}
 
@@ -69,16 +81,29 @@ public class HUDControl {
 
 		return true;
 	}
-	
-	public void Unload(GameBase game) {
+
+	public void LoadText(Node nodeText, SuperFarmGame game) {
+
+		HUDText text = new HUDText();
+
+		text.Load(nodeText, game);
+		this._texts.add(text);
+	}
+
+	public void Unload(SuperFarmGame game) {
 
 		for(Image i : this._images) {
 
 			i.Unload(game);
 		}
+
+		for(HUDText t : this._texts) {
+
+			t.Unload(game);
+		}
 	}
 	
-	public void Render(GameBase game) {
+	public void Render(SuperFarmGame game) {
 
 		if(!this.GetIsVisible())
 			return;
@@ -87,8 +112,24 @@ public class HUDControl {
 
 			i.Render(game);
 		}
+
+		for(HUDText t : this._texts) {
+
+			t.Render(game);
+		}
 	}
 
+	public void Update(SuperFarmGame game) {
+
+		if(!this.GetIsVisible())
+			return;
+
+		for(HUDText t : this._texts) {
+
+			t.Update(game);
+		}
+	}
+	
 	public void OnTouchDown(int x, int y) {
 
 		if(!this.GetIsVisible())

@@ -10,7 +10,7 @@
 	    <height>12</height>
 	    <action_click>dpad_center</action_click>
 	    <action_move>dpad_center</action_move>
-	    <action_up></action_up>
+	    <action_up>dpad_center_up</action_up>
 	</image>
 	<image>
 	    <filename>HUD/dpadl.png</filename>

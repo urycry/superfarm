@@ -1,19 +1,21 @@
 package com.richardhughes.superfarm;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
 import org.w3c.dom.NodeList;
 
 import android.graphics.Point;
+import android.util.Log;
 
 import com.richardhughes.jx.game.framework.Quad;
 import com.richardhughes.jx.game.framework.Sprite;
 import com.richardhughes.jx.util.FileHelper;
 import com.richardhughes.jx.util.XMLHelper;
 
-public class Farm {
+public class Farm implements IPlantUpdateListener {
 
 	private FarmTileMap _tilemap = new FarmTileMap();
 
@@ -22,14 +24,24 @@ public class Farm {
 
 	private Hashtable<String, Sprite> _data = new Hashtable<String, Sprite>();
 
+	private Sprite _groundSoil = new Sprite();
+
 	private boolean _shouldPerformDataRenderCleanup = false;
 
 	private ArrayList<Plant> _plants = new ArrayList<Plant>();
 	public ArrayList<Plant> GetPlants() { return this._plants; }
 
-	private Sprite _currentPlant = null;
-	public Sprite GetCurrentPlant() { return this._currentPlant; }
+	private Hashtable<Integer, PlantedPlant> _plantedPlants = new Hashtable<Integer, PlantedPlant>();
+	public Hashtable<Integer, PlantedPlant> GetPlantedPlants() { return this._plantedPlants; }
 
+	private int _plantIndex = 0;
+
+	private Sprite _currentPlantSprite = null;
+	public Sprite GetCurrentPlantSprite() { return this._currentPlantSprite; }
+
+	private Plant _currentPlant = null;
+	public Plant GetCurrentPlant() { return this._currentPlant; }
+	
 	private Season _currentSeason = Season.Spring;
 	public Season GetCurrentSeason() { return this._currentSeason; }
 	public void SetCurrentSeason(Season value, SuperFarmGame game) {
@@ -64,12 +76,16 @@ public class Farm {
 		this._highlightSection.Size.x = tileSize - 1; // don't cover the grid
 		this._highlightSection.Size.y = tileSize - 1; // don't cover the grid
 
+		s = xhelp.GetValue("/world/groundsoildfilename/text()");
+		this._groundSoil.Load(SuperFarmGame.PATH_WORLD + s, game);
+
 		this.LoadPlants(game);
 	}
 
 	private void LoadPlants(SuperFarmGame game) {
 
 		try {
+
 			String[] fileNames = game.CurrentApplicationContext.getAssets().list(SuperFarmGame.PATH_PLANTS_NO_SLASH);
 
 			for(String fileName : fileNames) {
@@ -77,6 +93,7 @@ public class Farm {
 				try {
 
 					this.LoadPlant(fileName, game);
+
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -97,7 +114,7 @@ public class Farm {
 			this._plants.add(p);
 		}
 	}
-	
+
 	public void Render(Camera camera, SuperFarmGame game) {
 
 		this._tilemap.Render(camera, game);
@@ -119,6 +136,11 @@ public class Farm {
 	}
 
 	public void Update(Camera camera, SuperFarmGame game) {
+
+		for(PlantedPlant pp : this._plantedPlants.values()) {
+// the crash here seems to be because this._plantedPlants is having a value added to it during iteration...
+			pp.Update(game);
+		}
 
 		int tileIndexTopLeftX = this.PixelToTile(camera._position.x, game);
 		int tileIndexTopLeftY = this.PixelToTile(camera._position.y, game);
@@ -169,21 +191,25 @@ public class Farm {
 		}
 	}
 
-	public void AddItem(/*item id or name,*/Point pos, SuperFarmGame game) {
+	public void AddPlant(Point pos, SuperFarmGame game) {
+
+		int index = this._plantIndex++;
+
+		PlantedPlant pp = new PlantedPlant();
+		pp.SetIndex(index);
+		pp.SetPlant(this._currentPlant);
+		pp.SetPos(pos);
+		pp.SetUpdateListener(this);
+
+		this._plantedPlants.put(index, pp);
+
+		this.AddItem(this._groundSoil, pos, game);
+	}
+
+	public void AddItem(Sprite sprite, Point pos, SuperFarmGame game) {
 
 		int tileX = this.PixelToTile(pos.x, game);
 		int tileY = this.PixelToTile(pos.y, game);
-
-		Sprite itemToAdd = null;
-
-		// TODO use item id or name above to get item to add
-		// for now, use the current plant - if there is one to use
-		itemToAdd = this._currentPlant;
-
-		if(itemToAdd == null) {
-
-			return;
-		}
 
 		String key = this.BuildTileDataKey(tileX, tileY);
 
@@ -191,8 +217,8 @@ public class Farm {
 
 			this._data.remove(key);
 		}
-		
-		this._data.put(key, itemToAdd);
+
+		this._data.put(key, sprite);
 	}
 
 	public String BuildTileDataKey(int x, int y) {
@@ -234,9 +260,20 @@ public class Farm {
 
 			if(p.GetId().trim().toLowerCase().equals(id)) {
 
-				this._currentPlant = new Sprite();
-				this._currentPlant.Load(p.GetAnimationFileName(), game);
+				this._currentPlantSprite = new Sprite();
+				this._currentPlantSprite.Load(p.GetAnimationFileName(), game);
+
+				this._currentPlant = p;
 			}
 		}
+	}
+
+	// IPlantUpdateListener methods
+
+	@Override
+	public void OnStageTimeUpdate(PlantUpdateListenerEventArgs e) {
+
+		Log.d(SuperFarmGame.TAG, "Plant Updated: " + e.GetIndex());
+		Log.d(SuperFarmGame.TAG, "Plant Updated: " + e.GetStageTime());
 	}
 }

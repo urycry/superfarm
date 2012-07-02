@@ -107,6 +107,10 @@ public class HUD {
 
 			this._listener.actionDPAD_CENTER(e);
 		}
+		else if(action.equals("dpad_center_up")) {
+
+			this._listener.actionDPAD_CENTER_UP(e);
+		}
 		else if(action.equals("dpad_up")) {
 
 			this._listener.actionDPAD_UP(e);

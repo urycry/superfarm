@@ -4,4 +4,11 @@
     <name>Grass - Type 1</name>
     <animationfilename>World/Plants/grass1_animation.xml</animationfilename>
     <menuiconfilename>World/Plants/grass1_menuicon.png</menuiconfilename>
+    <stagetimes>
+        <seed>0.5</seed>
+        <seedling>0.5</seedling>
+        <flower>0.5</flower>
+        <fruit>0.5</fruit>
+        <dead>0.5</dead>
+    </stagetimes>
 </plant>

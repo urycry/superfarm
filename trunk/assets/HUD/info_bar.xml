@@ -15,7 +15,7 @@
 	    <x>0</x>
 	    <y>0</y>
 	    <font>hud</font>
-	    <text>##day## - ##d##/##m##/##y## - ##h##:##M##</text>
+	    <text>##day## - ##d##/##m##/##y## - ##h24##:##M60##</text>
 	    <size>5</size>
 	    <color>#000000</color>
 	</text>

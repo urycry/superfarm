@@ -4,4 +4,5 @@
     <farmtilesize>1</farmtilesize>
     <startingyear>1900</startingyear>
     <dayinrealseconds>600</dayinrealseconds>
+    <defaultplantstagetime>100</defaultplantstagetime>
 </settings>

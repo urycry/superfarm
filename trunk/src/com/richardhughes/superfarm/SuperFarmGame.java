@@ -116,8 +116,7 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener, IGame
 
 		this._hud.Render(this);
 
-		//this.DebugPrint("FPS: " + this.FPS, false);
-		//this.DebugPrint(this._gameTime.GetDay() + " - " + this._gameTime.GetDayOfMonth() + "/" + this._gameTime.GetMonth() + "/" + this._gameTime.GetYear() + " - " + this._gameTime.GetHours() + ":" + this._gameTime.GetMinutes() + ":" + this._gameTime.GetSeconds());
+		this.DebugPrint("FPS: " + this.FPS, false);
 
 		this.RenderDebugMessages();
 	}
@@ -168,6 +167,10 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener, IGame
 
 	@Override
 	public void actionDPAD_CENTER(HUDActionListenerEventArgs e) {
+	}
+
+	@Override
+	public void actionDPAD_CENTER_UP(HUDActionListenerEventArgs e) {
 
 		this.Action();
 	}
@@ -331,7 +334,7 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener, IGame
 
 	private void Action_Plant() {
 
-		this._farm.AddItem(this._farmer.GetPosition(), this);
+		this._farm.AddPlant(this._farmer.GetPosition(), this);
 	}
 
 	private void AddPlantImagesToPlantMenu(String id) {

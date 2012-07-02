@@ -20,6 +20,10 @@ public class GameSettings {
 	private int _dayInRealSeconds = 0;
 	public int GetDayInRealSeconds() { return this._dayInRealSeconds; }
 
+	// in game hours
+	private int _defaultPlantStageTime = 0;
+	public int GetDefaultPlantStageTime() { return this._defaultPlantStageTime; }
+
 	public boolean Load(GameBase game) {
 
 		FileHelper rh = new FileHelper();
@@ -32,6 +36,7 @@ public class GameSettings {
 		this.FarmTileSize = Integer.parseInt(xhelp.GetValue("/settings/farmtilesize/text()"));
 		this._startingYear = Integer.parseInt(xhelp.GetValue("/settings/startingyear/text()"));
 		this._dayInRealSeconds = Integer.parseInt(xhelp.GetValue("/settings/dayinrealseconds/text()"));
+		this._defaultPlantStageTime = Integer.parseInt(xhelp.GetValue("/settings/defaultplantstagetime/text()"));
 
 		return true;
 	}

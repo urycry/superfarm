@@ -3,6 +3,7 @@ package com.richardhughes.superfarm;
 public interface IHUDActionListener {
 
 	public void actionDPAD_CENTER(HUDActionListenerEventArgs e);
+	public void actionDPAD_CENTER_UP(HUDActionListenerEventArgs e);
 	public void actionDPAD_LEFT(HUDActionListenerEventArgs e);
 	public void actionDPAD_RIGHT(HUDActionListenerEventArgs e);
 	public void actionDPAD_UP(HUDActionListenerEventArgs e);

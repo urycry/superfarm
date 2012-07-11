@@ -1,5 +1,6 @@
 package com.richardhughes.superfarm;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -16,6 +17,9 @@ public class GameTime {
 	private int _seconds = 0;
 	public int GetSeconds() { return this._seconds; }
 	public void SetSeconds(int value) { this._seconds = value; }
+
+	private long _elapsedSeconds = 0;
+	public long GetElapsedSeconds() { return this._elapsedSeconds; }
 
 	private int _minutes = 0;
 	public int GetMinutes() { return this._minutes; }
@@ -56,6 +60,10 @@ public class GameTime {
 	private IGameTimeUpdate _gameTimeUpdate = null;
 	public IGameTimeUpdate GetGameTimeUpdate() { return this._gameTimeUpdate; }
 	public void SetGameTimeUpdate(IGameTimeUpdate value) { this._gameTimeUpdate = value; }
+
+	private boolean _isPaused = false;
+	public boolean GetIsPaused() { return this._isPaused; }
+	public void SetIsPaused(boolean value) { this._isPaused = value; }
 
 	public boolean Load(int startingYear, int dayInRealSeconds) {
 
@@ -117,29 +125,33 @@ public class GameTime {
 		
 		if(time >= this._realSecondsInGameSecond) {
 
-			this._seconds += time / this._realSecondsInGameSecond; // in case we need to add more than one second
-
 			this._timeCounter = 0;
 
-			if(this._seconds >= 60) {
+			if(!this._isPaused) {
 
-				this._minutes += (int)(this._seconds / 60);
+				this._seconds += time / this._realSecondsInGameSecond; // in case we need to add more than one second
+				this._elapsedSeconds += time / this._realSecondsInGameSecond;
 
-				this._seconds = this._seconds % 60;
-			}
-
-			if(this._minutes >= 60) {
-
-				this._hours += (int)(this._minutes / 60);
-
-				this._minutes = this._minutes % 60;
-			}
-
-			if(this._hours >= 24) {
-
-				this.AdvanceDay();
-
-				this._hours = 0;
+				if(this._seconds >= 60) {
+	
+					this._minutes += (int)(this._seconds / 60);
+	
+					this._seconds = this._seconds % 60;
+				}
+	
+				if(this._minutes >= 60) {
+	
+					this._hours += (int)(this._minutes / 60);
+	
+					this._minutes = this._minutes % 60;
+				}
+	
+				if(this._hours >= 24) {
+	
+					this.AdvanceDay();
+	
+					this._hours = 0;
+				}
 			}
 		}
 	}

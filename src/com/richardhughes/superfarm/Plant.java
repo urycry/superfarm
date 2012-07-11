@@ -49,6 +49,7 @@ public class Plant {
 
 		float f = Float.parseFloat(xhelp.GetValue("/plant/stagetimes/" + stage.toString().toLowerCase() + "/text()"));
 
+
 		return f > 0.0f ? f : game.GetSettings().GetDefaultPlantStageTime();
 	}
 }

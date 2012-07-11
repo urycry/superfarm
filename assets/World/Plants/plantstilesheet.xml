@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tilesheet>
+	<filename>World/Plants/plants.png</filename>
+	<sheetwidth>128</sheetwidth>
+	<sheetheight>128</sheetheight>
+	<cellwidth>32</cellwidth>
+	<cellheight>32</cellheight>
+	<columns>4</columns>
+	<cellcount>16</cellcount>
+</tilesheet>

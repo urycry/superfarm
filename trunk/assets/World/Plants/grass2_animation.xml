@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tiledanimation>
-	<tilesheetfilename>World/worldmaptilesheet.xml</tilesheetfilename>
+	<tilesheetfilename>World/Plants/plantstilesheet.xml</tilesheetfilename>
 	<tiles>
 		3
 	</tiles>

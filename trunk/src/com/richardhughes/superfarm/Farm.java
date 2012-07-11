@@ -1,11 +1,7 @@
 package com.richardhughes.superfarm;
 
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Hashtable;
-
-import org.w3c.dom.NodeList;
 
 import android.graphics.Point;
 import android.util.Log;
@@ -23,6 +19,7 @@ public class Farm implements IPlantUpdateListener {
 	private boolean _renderHighlightSection = false;
 
 	private Hashtable<String, Sprite> _data = new Hashtable<String, Sprite>();
+	private ArrayList<String> _dataToRemove = new ArrayList<String>();
 
 	private Sprite _groundSoil = new Sprite();
 
@@ -35,9 +32,6 @@ public class Farm implements IPlantUpdateListener {
 	public Hashtable<Integer, PlantedPlant> GetPlantedPlants() { return this._plantedPlants; }
 
 	private int _plantIndex = 0;
-
-	private Sprite _currentPlantSprite = null;
-	public Sprite GetCurrentPlantSprite() { return this._currentPlantSprite; }
 
 	private Plant _currentPlant = null;
 	public Plant GetCurrentPlant() { return this._currentPlant; }
@@ -137,9 +131,11 @@ public class Farm implements IPlantUpdateListener {
 
 	public void Update(Camera camera, SuperFarmGame game) {
 
-		for(PlantedPlant pp : this._plantedPlants.values()) {
-// the crash here seems to be because this._plantedPlants is having a value added to it during iteration...
-			pp.Update(game);
+		PlantedPlant [] plants = (PlantedPlant[])this._plantedPlants.values().toArray(new PlantedPlant[0]);
+
+		for(int i = 0; i < plants.length; i++) {
+
+			plants[i].Update(game);
 		}
 
 		int tileIndexTopLeftX = this.PixelToTile(camera._position.x, game);
@@ -158,12 +154,19 @@ public class Farm implements IPlantUpdateListener {
 
 			for(int y = tileIndexTopLeftY; y <= tileIndexBottomRightY + 1; y++) {
 
+				int idx = (x - tileIndexTopLeftX) + ((y - tileIndexTopLeftY) * this._tilemap.GetWidthInTiles());
+
 				String key = this.BuildTileDataKey(x, y);
+
+				if(this._dataToRemove.contains(key)) {
+
+					this._tilemap.RemoveTextureCoordinates(game, idx);
+					textureCoordsSet = true;
+					this._data.remove(key);
+				}
 
 				if(!this._data.containsKey(key))
 					continue;
-
-				int idx = (x - tileIndexTopLeftX) + ((y - tileIndexTopLeftY) * this._tilemap.GetWidthInTiles());
 
 				this._tilemap.SetTextureCoordinates(game, this._data.get(key), idx);
 
@@ -189,16 +192,24 @@ public class Farm implements IPlantUpdateListener {
 
 			this._tilemap.CommitTextureCoordinateChanges(game);
 		}
+
+		// data should all be removed now
+		this._dataToRemove.clear();
 	}
 
 	public void AddPlant(Point pos, SuperFarmGame game) {
 
 		int index = this._plantIndex++;
 
+		int tileX = this.PixelToTile(pos.x, game);
+		int tileY = this.PixelToTile(pos.y, game);
+
 		PlantedPlant pp = new PlantedPlant();
+		pp.Load(game);
 		pp.SetIndex(index);
-		pp.SetPlant(this._currentPlant);
+		pp.SetPlant(this._currentPlant, game);
 		pp.SetPos(pos);
+		pp.SetKey(this.BuildTileDataKey(tileX, tileY));
 		pp.SetUpdateListener(this);
 
 		this._plantedPlants.put(index, pp);
@@ -213,12 +224,25 @@ public class Farm implements IPlantUpdateListener {
 
 		String key = this.BuildTileDataKey(tileX, tileY);
 
+		this.AddItem(sprite, key, game);
+	}
+
+	public void AddItem(Sprite sprite, String key, SuperFarmGame game) {
+
 		if(this._data.containsKey(key)) {
 
 			this._data.remove(key);
 		}
 
 		this._data.put(key, sprite);
+	}
+
+	public void RemoveItem(String key, SuperFarmGame game) {
+
+		if(this._data.containsKey(key)) {
+
+			this._dataToRemove.add(key);
+		}
 	}
 
 	public String BuildTileDataKey(int x, int y) {
@@ -232,7 +256,7 @@ public class Farm implements IPlantUpdateListener {
 
 		int tileIndexTopLeftX = this.PixelToTile(camera._position.x, game);
 		int tileIndexTopLeftY = this.PixelToTile(camera._position.y, game);
-		
+
 		int xOffset = -tileSize - (camera._position.x % tileSize);
 		int yOffset = -tileSize - (camera._position.y % tileSize);
 
@@ -260,20 +284,36 @@ public class Farm implements IPlantUpdateListener {
 
 			if(p.GetId().trim().toLowerCase().equals(id)) {
 
-				this._currentPlantSprite = new Sprite();
-				this._currentPlantSprite.Load(p.GetAnimationFileName(), game);
-
 				this._currentPlant = p;
 			}
 		}
 	}
 
+	private void RemovePlant(int plantIndex, SuperFarmGame game) {
+
+		PlantedPlant pp = this._plantedPlants.get(plantIndex);
+
+		this.RemoveItem(pp.GetKey(), game);
+		this._plantedPlants.remove(plantIndex);
+	}
+
+	private void UpdatePlant(int plantIndex, SuperFarmGame game) {
+
+		PlantedPlant pp = this._plantedPlants.get(plantIndex);
+		this.AddItem(pp.GetSprite(), pp.GetKey(), game);
+	}
+
 	// IPlantUpdateListener methods
 
 	@Override
-	public void OnStageTimeUpdate(PlantUpdateListenerEventArgs e) {
+	public void OnStageTimeUpdate(PlantUpdateListenerEventArgs e, SuperFarmGame game) {
 
-		Log.d(SuperFarmGame.TAG, "Plant Updated: " + e.GetIndex());
-		Log.d(SuperFarmGame.TAG, "Plant Updated: " + e.GetStageTime());
+		this.UpdatePlant(e.GetIndex(), game);
+game.DebugLog("Stage Changed: " + e.GetIndex());
+game.DebugLog("Stage Changed: " + e.GetStageTime());
+		if(e.GetStageTime() == PlantStageTime.Gone) {
+
+			this.RemovePlant(e.GetIndex(), game);
+		}
 	}
 }

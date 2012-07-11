@@ -8,5 +8,5 @@ public class PlantUpdateListenerEventArgs {
 
 	private PlantStageTime _stageTime = PlantStageTime.Seed;
 	public PlantStageTime GetStageTime() { return this._stageTime; }
-	public void SetStageTime(PlantStageTime value) { this._stageTime = value; }
+	public void SetStageTime(PlantStageTime value) { this._stageTime = value; }	
 }

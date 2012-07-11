@@ -86,11 +86,12 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener, IGame
 	@Override
 	public void OnUpdate(GL10 gl) {
 
+		this._gameTime.SetIsPaused(this._gameMode != GameMode.Normal);
+		this._gameTime.Update(this); // we still want the last elapsed frame time being updated even in menu mode 
+
 		// when viewing the menu, the game is effectively paused
 		if(this._gameMode == GameMode.Menu)
 			return;
-
-		this._gameTime.Update(this);
 
 		this._hud.Update(this);
 		
@@ -128,7 +129,7 @@ public class SuperFarmGame extends GameBase implements IHUDActionListener, IGame
 
 		for(String message : this._debugMessages) {
 
-			this._debugFont.DrawText(this, message, p, 3.0f, Color.WHITE);
+			this._debugFont.DrawText(this, message, p, 3.0f, Color.BLACK);
 
 			p.y += 30;
 		}

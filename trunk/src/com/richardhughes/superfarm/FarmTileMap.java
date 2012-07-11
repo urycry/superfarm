@@ -260,6 +260,11 @@ public class FarmTileMap {
 		this._texCoords[bufferIndex++] = coords.BottomRight.y;
 	}
 
+	public void RemoveTextureCoordinates(SuperFarmGame game, int tileIndex) {
+
+		this.SetTextureCoordinates(game, this._groundBasic, tileIndex);
+	}
+	
 	public void CommitTextureCoordinateChanges(SuperFarmGame game) {
 
 		ByteBuffer buff = ByteBuffer.allocateDirect(this._texCoords.length * 4);
